@@ -1,5 +1,8 @@
 package com.linmalu.randombox;
 
+import com.linmalu.library.api.LinmaluServer;
+import com.linmalu.library.api.LinmaluTellraw;
+import com.linmalu.randombox.data.LinmaluInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -13,10 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.linmalu.library.api.LinmaluTellraw;
-import com.linmalu.library.api.LinmaluVersion;
-import com.linmalu.randombox.data.LinmaluInventory;
-
 public class Main_Event implements Listener
 {
 	private LinmaluInventory inventory = Main.getMain().getLinmaluInventory();
@@ -27,9 +26,10 @@ public class Main_Event implements Listener
 		Player player = event.getPlayer();
 		if(player.isOp())
 		{
-			LinmaluVersion.check(Main.getMain(), player);
+			LinmaluServer.version(Main.getMain(), player);
 		}
 	}
+
 	@EventHandler
 	public void Event(PlayerInteractEvent event)
 	{
@@ -56,6 +56,7 @@ public class Main_Event implements Listener
 			event.setCancelled(true);
 		}
 	}
+
 	@EventHandler
 	public void Event(InventoryCloseEvent event)
 	{

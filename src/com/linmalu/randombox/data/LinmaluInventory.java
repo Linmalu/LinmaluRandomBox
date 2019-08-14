@@ -1,18 +1,17 @@
 package com.linmalu.randombox.data;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
+import com.linmalu.library.api.LinmaluConfig;
+import com.linmalu.randombox.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.linmalu.library.api.LinmaluConfig;
-import com.linmalu.randombox.Main;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class LinmaluInventory
 {
@@ -28,7 +27,7 @@ public class LinmaluInventory
 			config.getKeys(false).forEach(key ->
 			{
 				Inventory inv = Bukkit.createInventory(null, 9 * 6, key);
-				List<ItemStack> items = ((List<ItemStack>)config.getData(key, List.class));
+				List<ItemStack> items = ((List<ItemStack>)config.getList(key));
 				inv.setContents(items.toArray(new ItemStack[items.size()]));
 				if(!isEmptyInventory(inv))
 				{
@@ -37,6 +36,7 @@ public class LinmaluInventory
 			});
 		}
 	}
+
 	public void save(Inventory inv)
 	{
 		synchronized(inventorys)
@@ -44,24 +44,26 @@ public class LinmaluInventory
 			String name = inv.getTitle().replace(Main.getMain().getTitle(), "");
 			if(!isEmptyInventory(inv))
 			{
-				config.setData(name, inv.getContents());
+				config.set(name, inv.getContents());
 				inventorys.put(name, inv);
 			}
 			else
 			{
-				config.removeData(name);
+				config.remove(name);
 				inventorys.remove(name);
 			}
 		}
 	}
+
 	public void clear()
 	{
 		synchronized(inventorys)
 		{
-			config.clearData();
+			config.clear();
 			inventorys.clear();
 		}
 	}
+
 	public boolean isEmptyInventory(Inventory inv)
 	{
 		for(ItemStack item : inv.getContents())
@@ -73,6 +75,7 @@ public class LinmaluInventory
 		}
 		return true;
 	}
+
 	public Inventory getInventory(String name)
 	{
 		synchronized(inventorys)
@@ -80,6 +83,7 @@ public class LinmaluInventory
 			return inventorys.containsKey(name) ? inventorys.get(name) : Bukkit.createInventory(null, 9 * 6, Main.getMain().getTitle() + name);
 		}
 	}
+
 	public boolean hasItem()
 	{
 		synchronized(inventorys)
@@ -94,6 +98,7 @@ public class LinmaluInventory
 			return false;
 		}
 	}
+
 	public ItemStack getItem()
 	{
 		synchronized(inventorys)

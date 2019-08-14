@@ -7,7 +7,7 @@ public class Main extends LinmaluMain
 {
 	public static Main getMain()
 	{
-		return (Main)LinmaluMain.getMain();
+		return (Main)LinmaluMain.getInstance();
 	}
 
 	private LinmaluInventory inventory;
@@ -19,6 +19,7 @@ public class Main extends LinmaluMain
 		registerCommand(new Main_Command());
 		registerEvents(new Main_Event());
 	}
+
 	public LinmaluInventory getLinmaluInventory()
 	{
 		return inventory;
