@@ -3,17 +3,16 @@
  - author : 린마루(Linmalu)
  - HomePage : http://blog.linmalu.com/
  - Language : JAVA8
- - Spigot : spigot-api-1.10.2-R0.1-SNAPSHOT-shaded
- - Version : 1.10.2.0
+ - Spigot : spigot-api-1.13.2-R0.1-SNAPSHOT-shaded
+ - Version : 1.13.2.0
 
 ###업데이트
-- 플러그인개발
+- 버전 업데이트
 
 ###소개
 - 플러그인은 랜덤상자 플러그인으로 덫상자를 우클릭할경우 설정된 아이템에서 랜덤으로 아이템이 나옵니다.
 - 플러그인은 JAVA8버전이 필요합니다.
-- 플러그인은 ProtocolLib 플러그인과 LinmaluLibrary 플러그인이 필요합니다. 없을 경우에는 플러그인이 작동하지 않습니다.
-- ProtocolLib 플러그인 : https://www.spigotmc.org/resources/protocollib.1997/
+- 플러그인은 LinmaluLibrary 플러그인이 필요합니다. 없을 경우에는 플러그인이 작동하지 않습니다.
 - LinmaluLibrary 플러그인 : http://blog.linmalu.com/
 - 플러그인은 MC-Blacklist System을 사용하고 있으며 문의사항은 홈페이지에서 해주시면 됩니다.
 - MC-Blacklist System : http://mc-blacklist.kr/

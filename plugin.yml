@@ -8,6 +8,6 @@ depend: [LinmaluLibrary]
 
 commands:
     LinmaluRandomBox:
-        description: 랜덤박스 플러그인
-        aliases: [lrb, 랜덤박스]
+        description: 랜덤상자 플러그인
+        aliases: [lrb, 랜덤상자]
         usage: '명령어 : /<command>'
