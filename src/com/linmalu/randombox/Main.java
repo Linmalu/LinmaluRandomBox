@@ -9,20 +9,20 @@ public class Main extends LinmaluMain
 		return (Main)LinmaluMain.getInstance();
 	}
 
-	private RandomboxManager _randomboxManager;
+	private RandomBoxManager _randomBoxManager;
 
 	public void onEnable()
 	{
 		super.onEnable();
 		getLogger().info("Loading . . . . .");
-		_randomboxManager = new RandomboxManager();
+		_randomBoxManager = new RandomBoxManager();
 		getLogger().info("Loading Complete!");
-		registerCommand(new Main_Command());
-		registerEvents(new Main_Event());
+		new Main_Command(this);
+		new Main_Event(this);
 	}
 
-	public RandomboxManager getRandomboxManager()
+	public RandomBoxManager getRandomBoxManager()
 	{
-		return _randomboxManager;
+		return _randomBoxManager;
 	}
 }
