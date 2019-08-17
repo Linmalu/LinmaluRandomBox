@@ -24,7 +24,7 @@ public class RandomBoxManager
 	public void reload()
 	{
 		_randomBoxMap.clear();
-		LinmaluPlayer.getOnlinePlayers().stream().filter(player -> player.getOpenInventory().getTopInventory().getHolder() instanceof RandomBoxHolder).forEach(Player::closeInventory);
+		closeInventory();
 		_config.reload();
 		for(String key : _config.getKeys(false))
 		{
@@ -87,7 +87,7 @@ public class RandomBoxManager
 
 	public void clear()
 	{
-		LinmaluPlayer.getOnlinePlayers().stream().filter(player -> player.getOpenInventory().getTopInventory().getHolder() instanceof RandomBoxHolder).forEach(Player::closeInventory);
+		closeInventory();
 		for(Inventory inv : _randomBoxMap.values())
 		{
 			inv.clear();
@@ -141,6 +141,17 @@ public class RandomBoxManager
 			return item;
 		}
 		return new ItemStack(Material.AIR);
+	}
+
+	public void closeInventory()
+	{
+		for(Player player : LinmaluPlayer.getOnlinePlayers())
+		{
+			if(player.getOpenInventory().getTopInventory().getHolder() instanceof RandomBoxHolder)
+			{
+				player.closeInventory();
+			}
+		}
 	}
 
 	private boolean isEmptyItems(ItemStack[] items)
