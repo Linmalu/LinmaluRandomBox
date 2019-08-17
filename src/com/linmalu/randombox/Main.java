@@ -11,6 +11,7 @@ public class Main extends LinmaluMain
 
 	private RandomBoxManager _randomBoxManager;
 
+	@Override
 	public void onEnable()
 	{
 		super.onEnable();
@@ -19,6 +20,13 @@ public class Main extends LinmaluMain
 		getLogger().info("Loading Complete!");
 		new Main_Command(this);
 		new Main_Event(this);
+	}
+
+	@Override
+	public void onDisable()
+	{
+		super.onDisable();
+		_randomBoxManager.closeInventory();
 	}
 
 	public RandomBoxManager getRandomBoxManager()
