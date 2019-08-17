@@ -1,73 +1,79 @@
 package com.linmalu.randombox;
 
-import com.linmalu.library.api.LinmaluServer;
+import com.linmalu.library.api.LinmaluCommand;
+import com.linmalu.library.api.LinmaluMain;
 import com.linmalu.library.api.LinmaluTellraw;
-import com.linmalu.randombox.data.LinmaluInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class Main_Command implements CommandExecutor
+public class Main_Command extends LinmaluCommand
 {
-	private LinmaluInventory inventory = Main.getMain().getLinmaluInventory();
+	private final RandomBoxManager _randomBoxManager = Main.getInstance().getRandomBoxManager();
 
-	public Main_Command()
+	public Main_Command(LinmaluMain main)
 	{
-		Main.getMain().getCommand(Main.getMain().getDescription().getName()).setTabCompleter(new TabCompleter()
-		{
-			@Override
-			public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
-			{
-				ArrayList<String> list = new ArrayList<>();
-				if(args.length == 1)
-				{
-					list.add("초기화");
-					list.add("clear");
-				}
-				return list.stream().filter(msg -> msg.startsWith(args[args.length - 1])).count() == 0 ? list : list.stream().filter(msg -> msg.startsWith(args[args.length - 1])).collect(Collectors.toList());
-			}
-		});
+		super(main);
 	}
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String args[])
+	@Override
+	protected List<String> TabCompleter(CommandSender sender, Command command, String alias, String[] args)
 	{
-		if(sender instanceof Player && sender.isOp())
+		List<String> list = new ArrayList<>();
+		if(args.length == 1)
 		{
-			Player player = (Player)sender;
-			if(args.length == 1)
-			{
-				if(args[0].equals("초기화") || args[0].equalsIgnoreCase("clear"))
-				{
-					inventory.clear();
-					sender.sendMessage(Main.getMain().getTitle() + ChatColor.GREEN + "인벤토리가 초기화되었습니다.");
-					return true;
-				}
-				else
-				{
-					player.openInventory(inventory.getInventory(args[0]));
-					return true;
-				}
-			}
-			sender.sendMessage(ChatColor.GREEN + " = = = = = [ Linmalu Random Box ] = = = = =");
-			LinmaluTellraw.sendChat(sender, "/" + label + " ", ChatColor.GOLD + "/" + label + " <이름>" + ChatColor.GRAY + " : 인벤토리 열기");
-			LinmaluTellraw.sendChat(sender, "/" + label + " clear ", ChatColor.GOLD + "/" + label + " 초기화/clear" + ChatColor.GRAY + " : 인벤토리 초기화");
-			sender.sendMessage(ChatColor.YELLOW + "제작자 : " + ChatColor.AQUA + "린마루(Linmalu)" + ChatColor.WHITE + " - http://blog.linmalu.com");
-			if(sender.isOp())
-			{
-				LinmaluServer.version(Main.getMain(), sender);
-			}
+			list.add("use");
+			list.add("clear");
+			list.add("reload");
+			list.addAll(_randomBoxManager.getNames());
 		}
-		else
+		return list;
+	}
+
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+	{
+		if(!(sender instanceof Player && sender.isOp()))
 		{
 			sender.sendMessage(ChatColor.RED + "권한이 없습니다.");
+			return true;
 		}
+		Player player = (Player)sender;
+		if(args.length == 1)
+		{
+			if(args[0].equalsIgnoreCase("use"))
+			{
+				_randomBoxManager.useRandomBox(player);
+				return true;
+			}
+			else if(args[0].equalsIgnoreCase("clear"))
+			{
+				_randomBoxManager.clear();
+				sender.sendMessage(Main.getInstance().getTitle() + ChatColor.GREEN + "랜덤상자가 초기화되었습니다.");
+				return true;
+			}
+			else if(args[0].equalsIgnoreCase("reload"))
+			{
+				sender.sendMessage(Main.getInstance().getTitle() + ChatColor.YELLOW + "랜덤상자 리로드중입니다...");
+				_randomBoxManager.reload();
+				sender.sendMessage(Main.getInstance().getTitle() + ChatColor.GREEN + "랜덤상자 리로드가 완료되었습니다.");
+				return true;
+			}
+			else
+			{
+				player.openInventory(_randomBoxManager.getRandombox(args[0]));
+				return true;
+			}
+		}
+		sender.sendMessage(ChatColor.GREEN + " = = = = = [ Linmalu RandomBox ] = = = = =");
+		LinmaluTellraw.sendChat(sender, "/" + label + " use ", ChatColor.GOLD + "/" + label + " use" + ChatColor.GRAY + " : 랜덤상자 작동");
+		LinmaluTellraw.sendChat(sender, "/" + label + " clear ", ChatColor.GOLD + "/" + label + " clear" + ChatColor.GRAY + " : 랜덤상자 초기화");
+		LinmaluTellraw.sendChat(sender, "/" + label + " reload ", ChatColor.GOLD + "/" + label + " reload" + ChatColor.GRAY + " : 랜덤상자 리로드");
+		LinmaluTellraw.sendChat(sender, "/" + label + " ", ChatColor.GOLD + "/" + label + " <이름>" + ChatColor.GRAY + " : 랜덤상자 열기");
+		sender.sendMessage(ChatColor.YELLOW + "제작자 : " + ChatColor.AQUA + "린마루(Linmalu)" + ChatColor.WHITE + " - http://blog.linmalu.com");
 		return true;
 	}
 }
