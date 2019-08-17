@@ -64,7 +64,7 @@ public class Main_Command extends LinmaluCommand
 			}
 			else
 			{
-				player.openInventory(_randomBoxManager.getRandombox(args[0]));
+				player.openInventory(_randomBoxManager.getRandomBox(args[0]));
 				return true;
 			}
 		}

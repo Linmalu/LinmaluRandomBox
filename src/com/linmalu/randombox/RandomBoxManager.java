@@ -28,13 +28,17 @@ public class RandomBoxManager
 		_config.reload();
 		for(String key : _config.getKeys(false))
 		{
-			//	ItemStack[] items = _config.getListData(key, new ArrayList<>()).stream().toArray(ItemStack[]::new);
-			ItemStack[] items = _config.getListData(key, new ArrayList<>()).toArray(new ItemStack[0]);
+			List<ItemStack> list = _config.getListData(key);
+			if(list == null)
+			{
+				continue;
+			}
+			ItemStack[] items = list.toArray(new ItemStack[0]);
 			if(isEmptyItems(items))
 			{
 				continue;
 			}
-			Inventory inv = getRandombox(key);
+			Inventory inv = getRandomBox(key);
 			inv.setContents(items);
 			_randomBoxMap.put(key, inv);
 		}
@@ -71,7 +75,7 @@ public class RandomBoxManager
 		return _randomBoxMap.keySet();
 	}
 
-	public Inventory getRandombox(String name)
+	public Inventory getRandomBox(String name)
 	{
 		name = name.replace(".", "");
 		if(!_randomBoxMap.containsKey(name))
