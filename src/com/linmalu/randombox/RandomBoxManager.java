@@ -107,8 +107,8 @@ public class RandomBoxManager
 		}
 		else
 		{
-			player.getInventory().addItem(item).values().forEach(i -> player.getWorld().dropItem(player.getLocation(), i));
 			player.sendMessage(Main.getInstance().getTitle() + ChatColor.GREEN + (item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().toString()) + ChatColor.GOLD + "(" + item.getAmount() + ")" + ChatColor.GRAY + " 아이템을 획득했습니다.");
+			player.getInventory().addItem(item).values().forEach(i -> player.getWorld().dropItem(player.getLocation(), i));
 			return true;
 		}
 	}
