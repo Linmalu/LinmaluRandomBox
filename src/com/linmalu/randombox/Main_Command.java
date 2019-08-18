@@ -24,6 +24,10 @@ public class Main_Command extends LinmaluCommand
 	protected List<String> TabCompleter(CommandSender sender, Command command, String alias, String[] args)
 	{
 		List<String> list = new ArrayList<>();
+		if(!(sender instanceof Player && sender.isOp()))
+		{
+			return list;
+		}
 		if(args.length == 1)
 		{
 			list.add("use");
